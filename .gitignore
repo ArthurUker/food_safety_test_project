@@ -1,0 +1,66 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+eggs/
+parts/
+sdist/
+var/
+*.log
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtualenv
+.venv/
+venv/
+ENV/
+env/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# IDEs
+.idea/
+*.iml
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Coverage / test
+.pytest_cache/
+.coverage
+coverage.xml
+
+# Python cache
+*.pyc
+
+# Temp files
+*.tmp
+*.swp
+
+# System files
+Thumbs.db
+ehthumbs.db
+
+# Local workspace storage
+.vscode-server/
+workspaceStorage/
+
+# Misc
+*.bak
+*.orig

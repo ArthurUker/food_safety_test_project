@@ -429,3 +429,20 @@ strong {
   justify-content: center;
   gap: 18px;
 }
+
+/* 合规声明样式（建议用于页脚或封面） */
+.disclaimer {
+  font-size: 13px;
+  color: #0f4c81;
+}
+
+/* 资料下载按钮（占位） */
+.download-btn {
+  background: #0f4c81;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: default;
+  opacity: 0.72;
+}

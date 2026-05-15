@@ -8,7 +8,7 @@
   /* ── 常量 ── */
   const DESIGN_W = 1600;
   const DESIGN_H = 900;
-  const TOTAL_SLIDES = 16;
+  const TOTAL_SLIDES = 20;
   const SWIPE_THRESHOLD = 50; // 触屏滑动触发阈值（px）
 
   /* ── DOM 引用 ── */
@@ -100,6 +100,8 @@
   /* 对外暴露，供 HTML 按钮的 onclick 调用 */
   window.next = function () { show(cur + 1); };
   window.prev = function () { show(cur - 1); };
+  // 按页跳转（0-based）
+  window.goTo = function (n) { show(n); };
 
   /* ==================================================
      3. 键盘快捷键

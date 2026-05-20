@@ -9,7 +9,7 @@
 <body>
 <div class="stage">
   <div class="scaler" id="scaler">
-    <div class="nav">
+  <div class="nav">
       <div style="display:flex;gap:8px;margin-right:12px;align-items:center">
         <button onclick="goTo(0)">封面</button>
         <button onclick="goTo(1)">建设背景</button>
@@ -27,8 +27,14 @@
         <button onclick="goTo(26)">事件响应</button>
         <button onclick="goTo(27)">总览</button>
       </div>
-      <button onclick="prev()">◀ 上一页</button>
-      <button onclick="next()">下一页 ▶</button>
+      <div style="display:flex;gap:16px;align-items:center;margin-left:auto">
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          <div id="chapter-display" style="font-size:16px;font-weight:700;color:#0f4c81;min-width:100px">封面</div>
+          <div id="page-display" style="font-size:13px;color:#16a085;font-weight:600">1 / 28</div>
+        </div>
+        <button onclick="prev()">◀ 上一页</button>
+        <button onclick="next()">下一页 ▶</button>
+      </div>
     </div>
   </div>
 </div>

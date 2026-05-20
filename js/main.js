@@ -8,8 +8,18 @@
   /* ── 常量 ── */
   const DESIGN_W = 1600;
   const DESIGN_H = 900;
-  const TOTAL_SLIDES = 20;
+  const TOTAL_SLIDES = 28;
   const SWIPE_THRESHOLD = 50; // 触屏滑动触发阈值（px）
+
+  /* ── 章节名称映射 ── */
+  const chapterNames = [
+    '封面', '建设背景', '基本条件', '人员培训', '设备管理', 
+    '试剂管理', '采样规程', '检测规程', '质量控制', '记录制度',
+    '阳性处置', '信息公示', '复检流程', '生物安全', '检测项目',
+    '留样管理', '数据管理', '年度计划', '考核改进', '制度总览',
+    '供应商管理', '人员健康', '功能分区', '方法确认', '不符合项',
+    '内部审核', '事件响应', '文件管理'
+  ];
 
   /* ── DOM 引用 ── */
   const scaler = document.getElementById('scaler');
@@ -43,6 +53,7 @@
       slides.forEach((s) => s.classList.remove('active'));
       slides[0].classList.add('active');
       cur = 0;
+      updateNavDisplay();
     }
   }
 
@@ -95,6 +106,43 @@
     slides[cur].classList.remove('active');
     cur = n;
     slides[cur].classList.add('active');
+
+    // 更新页码和章节显示
+    updateNavDisplay();
+  }
+
+  // 更新导航栏的页码和章节显示
+  function updateNavDisplay() {
+    const pageNum = cur + 1;
+    const chapterName = chapterNames[cur] || '未知章节';
+    const pageDisplay = document.getElementById('page-display');
+    const chapterDisplay = document.getElementById('chapter-display');
+    
+    if (pageDisplay) {
+      pageDisplay.textContent = `${pageNum} / ${totalSlides}`;
+    }
+    if (chapterDisplay) {
+      chapterDisplay.textContent = chapterName;
+    }
+
+    // 更新导航按钮的活跃状态
+    updateNavButtons();
+  }
+
+  // 更新导航按钮的活跃状态
+  function updateNavButtons() {
+    const navButtons = document.querySelectorAll('.nav button[onclick^="goTo"]');
+    navButtons.forEach(btn => {
+      btn.classList.remove('nav-btn-active');
+      // 解析 onclick 属性中的页码
+      const match = btn.getAttribute('onclick').match(/goTo\((\d+)\)/);
+      if (match) {
+        const btnPageIdx = parseInt(match[1], 10);
+        if (btnPageIdx === cur) {
+          btn.classList.add('nav-btn-active');
+        }
+      }
+    });
   }
 
   /* 对外暴露，供 HTML 按钮的 onclick 调用 */

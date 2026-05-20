@@ -1,7 +1,39 @@
 <div class="slide">
   <div class="kicker">第17章</div>
-  <div class="slide-title sm">深化中...</div>
-  <p>本章内容正在从原有基础上深化，预期增加 3-5 倍内容深度。</p>
+  <div class="slide-title sm">数据管理与信息化记录体系</div>
+
+  <div style="flex:1;display:flex;flex-direction:column;gap:12px">
+    <div class="g3">
+      <div class="card">
+        <h3>数据采集层</h3>
+        <ul>
+          <li><strong>仪器电子结果</strong>：微流控快检仪自动生成、时间戳、操作人ID、样品编号</li>
+          <li><strong>采样数据</strong>：采样地点、采样人、样品名、批号、销售人联系方式</li>
+          <li><strong>质控数据</strong>：正负控结果、批号、检测日期、判定结果</li>
+          <li><strong>手工补充</strong>：样品外观、异常情况、操作记录（如非正常条件）</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>数据存储层</h3>
+        <ul>
+          <li><strong>双备份制度</strong>：本地存储+云端备份，防止数据丢失</li>
+          <li><strong>保存期限</strong>：正常检测记录≥2年，阳性结果≥3年，留样记录≥2年</li>
+          <li><strong>访问权限</strong>：建立不同角色权限（操作员只读、审核员可修改备注、管理员可生成报告）</li>
+          <li><strong>数据加密</strong>：关键字段加密，涉及个人信息脱敏处理</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>数据应用层</h3>
+        <ul>
+          <li><strong>月度分析报告</strong>：汇总检测样本数、阳性率、主要问题品类、改进方向</li>
+          <li><strong>趋势分析</strong>：季节性问题识别、供应商质量追踪、操作人员准确率监控</li>
+          <li><strong>风险预警</strong>：某品类连续阳性→自动预警，加强该品类高频检测</li>
+          <li><strong>可追溯查询</strong>：按样品→追溯检测过程、质控状态、处置结果</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <div class="footer">
     <div class="progress"><div class="progress-bar" style="width:59.5%"></div></div>
     <span class="pnum">17 / 28</span>

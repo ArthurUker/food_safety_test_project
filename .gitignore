@@ -64,3 +64,13 @@ workspaceStorage/
 # Misc
 *.bak
 *.orig
+
+# Local scripts and developer files
+/scripts/
+.env
+.env.*
+*.sqlite3
+*.db
+*.log
+.cache/
+.ipynb_checkpoints/

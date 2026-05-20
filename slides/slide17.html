@@ -1,74 +1,56 @@
 <div class="slide">
-  <div class="kicker">第三方验证</div>
-  <div class="slide-title sm">第三方验证与性能评价路径</div>
+  <div class="kicker">数据管理</div>
+  <div class="slide-title sm">检测数据管理与信息化记录体系</div>
 
-  <div class="cover-body">
-    <p style="font-size:16px;color:#2c3e50;max-width:900px">
-      为确保快检结果的可靠性与可采信性，应组织开展第三方验证、盲样比对与符合性评价。验证包含方法学比对、盲样检测、假阳/假阴评估与检测限确认，形成白皮书为采购与示范提供证据链。
-    </p>
-
-    <div class="g2" style="margin-top:12px">
-      <div class="card">
-        <h3>验证要点</h3>
-        <ul>
-          <li>选择具资质的检验机构开展方法比对与盲样验证</li>
-          <li>按不同样本基质设定验证方案（贝类、水样、熟食等）</li>
-          <li>评估检出限、灵敏度、特异性与假阳/假阴率</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>输出成果</h3>
-        <ul>
-          <li>验证白皮书（方法、样本、结果、判定规则）</li>
-          <li>准确率统计与动态排名支持采购决策</li>
-          <li>支持产品符合性评价与认证材料准备</li>
-        </ul>
-      </div>
+  <div class="g3" style="flex:1">
+    <div class="card">
+      <h3>数据采集层</h3>
+      <ul>
+        <li>微流控快检仪自动生成电子结果文件</li>
+        <li>检测结果含时间戳、操作员 ID、仪器编号</li>
+        <li>样品信息录入须在检测前完成（防止事后修改）</li>
+        <li>原始数据文件须加密锁定，不可修改</li>
+        <li>每次检测完成后立即本地备份</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>数据存储层</h3>
+      <ul>
+        <li>本地服务器或专用 NAS 存储，双备份</li>
+        <li>检测数据、采样记录、质控记录统一归档</li>
+        <li>数据保存期限 ≥2年（阳性记录 ≥3年）</li>
+        <li>按月生成数据汇总报表，实验室负责人审核签字</li>
+        <li>年度数据归档并移交学校档案室</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>数据应用层</h3>
+      <ul>
+        <li>支持按品类、时间、供应商维度查询检测历史</li>
+        <li>月度风险分析报告：阳性率趋势、高风险品类</li>
+        <li>配合市场监管部门上传国家食品安全信息系统</li>
+        <li>为年度工作总结提供数据支撑</li>
+      </ul>
     </div>
   </div>
 
-  <div class="disclaimer" style="font-size:13px;color:#6b8398;margin-top:12px">本方案定位为食品安全风险快速筛查应用方案，检测结果用于风险提示和处置参考，不替代食品检验机构实验室检验。</div>
-
-  <div class="footer">
-    <div class="progress"><div class="progress-bar" style="width:85%"></div></div>
-    <span class="pnum">17 / 20</span>
-  </div>
-
-</div>
-<div class="slide">
-  <div class="kicker">验证与评价</div>
-  <div class="slide-title sm">第三方验证与性能评价路径</div>
-
-  <div class="g2" style="margin-top:8px">
+  <div class="g2" style="margin-top:14px">
     <div class="card">
-      <h3>性能指标</h3>
+      <h3>数据安全要求</h3>
       <ul>
-        <li><strong>灵敏度</strong>：阳性样品被检出比例</li>
-        <li><strong>特异性 / 交叉反应率</strong>：方法特异性评价</li>
-        <li><strong>假阴性率 / 假阳性率</strong>：样本一致性统计</li>
-        <li><strong>检测限</strong>：最低可检测浓度范围</li>
-        <li><strong>实验室比对</strong>：与标准/参比方法一致性</li>
+        <li>系统访问须设置独立账号与密码，按角色授权</li>
+        <li>数据修改须留存操作日志（操作人、时间、内容）</li>
+        <li>禁止删除或覆盖原始检测记录</li>
       </ul>
     </div>
     <div class="card green">
-      <h3>验证路径</h3>
-      <ol>
-        <li>示范点真实样本积累与初步统计</li>
-        <li>与具资质食品检验机构或 CMA/CNAS 实验室方法比对</li>
-        <li>形成假阳/假阴与一致性分析报告</li>
-        <li>发布第三方验证白皮书并推进符合性评价</li>
-      </ol>
+      <h3>可追溯能力要求</h3>
+      <ul>
+        <li>任一检测结果可追溯：操作人—仪器—试剂批号—样品来源—采样时间</li>
+        <li>食源性疾病事件发生时，可在 1 小时内完成相关检测数据调取与核查</li>
+      </ul>
     </div>
   </div>
-
-  <div style="margin-top:12px">
-    <div class="card">
-      <h3>合规提示</h3>
-      <p>食品快检产品的符合性评价适用于声称采用总局公布方法的产品；对于尚未对应公布方法的产品，应以第三方验证与方法比对为中长期路径。</p>
-    </div>
-  </div>
-
-  <div class="disclaimer" style="margin-top:12px">核酸阳性提示存在目标病原体污染风险，不等同于活菌或感染性病毒存在。复核应由具资质实验室完成。</div>
 
   <div class="footer">
     <div class="progress"><div class="progress-bar" style="width:85%"></div></div>

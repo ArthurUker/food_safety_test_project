@@ -39,13 +39,8 @@
     });
 
     const htmlList = await Promise.all(slidePromises);
-    const nav = scaler.querySelector('.nav');
     const html = htmlList.join('\n');
-    if (nav) {
-      nav.insertAdjacentHTML('beforebegin', html);
-    } else {
-      scaler.insertAdjacentHTML('beforeend', html);
-    }
+    scaler.insertAdjacentHTML('beforeend', html);
 
     slides = Array.from(scaler.querySelectorAll(':scope > .slide'));
     totalSlides = slides.length;
@@ -58,7 +53,6 @@
   }
 
   function showLoadError(err) {
-    const nav = scaler.querySelector('.nav');
     const fallback = document.createElement('div');
     fallback.className = 'slide active';
     fallback.innerHTML = `
@@ -69,11 +63,7 @@
         <p style="font-size:14px;color:#6b8398">${String(err && err.message ? err.message : err)}</p>
       </div>
     `;
-    if (nav) {
-      nav.insertAdjacentElement('beforebegin', fallback);
-    } else {
-      scaler.appendChild(fallback);
-    }
+    scaler.appendChild(fallback);
     slides = [fallback];
     totalSlides = 1;
   }
@@ -82,12 +72,16 @@
      1. 等比缩放适配
      ================================================== */
   function resize() {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
+    const shell = document.querySelector('.ppt-shell');
+    const navBar = document.querySelector('.nav');
     const safeMargin = 24;
-    const availW = Math.max(vw - safeMargin, 320);
-    const availH = Math.max(vh - safeMargin, 240);
+    const navHeight = navBar ? navBar.offsetHeight : 96;
+    const availW = Math.max(window.innerWidth - safeMargin * 2, 320);
+    const availH = Math.max(window.innerHeight - navHeight - safeMargin * 2, 240);
     const scale = Math.min(availW / DESIGN_W, availH / DESIGN_H);
+    if (shell) {
+      shell.style.height = `${DESIGN_H * scale}px`;
+    }
     scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
   }
 

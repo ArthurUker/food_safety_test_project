@@ -71,7 +71,7 @@ html, body {
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(8, 52, 100, .2);
   overflow: hidden;
-  padding: 48px 72px 140px 84px;
+  padding: 48px 72px 40px 84px;
   flex-direction: column;
   gap: 0;
 }
@@ -360,18 +360,16 @@ strong {
    ====================================================== */
 
 .footer {
-  position: absolute;
-  bottom: 14px;
-  left: 14px;
-  right: 0;
-  height: 56px;
+  position: relative;
+  width: 100%;
+  min-height: 56px;
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 10px 72px 10px 70px;
+  margin-top: 8px;
   background: rgba(255, 255, 255, 0.6);
   border-radius: 12px;
-  margin: 0 16px;
 }
 
 .progress {
@@ -401,16 +399,16 @@ strong {
    ====================================================== */
 
 .nav {
-  position: relative;
-  width: 100%;
-  min-height: 84px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
   display: flex;
   gap: 12px;
   align-items: center;
-  padding: 10px 14px 12px;
+  padding: 12px 16px;
   background: rgba(255, 255, 255, 0.98);
-  border-radius: 14px 14px 0 0;
-  backdrop-filter: blur(8px);
+  border-radius: 12px 0 0 0;
+  backdrop-filter: blur(4px);
   box-shadow: 0 8px 24px rgba(8, 52, 100, .12);
 }
 

@@ -165,11 +165,17 @@
     const items = container.querySelectorAll('.chapter-bubble');
     items.forEach(it => {
       const idx = parseInt(it.dataset.index, 10);
+      const distance = Math.abs(idx - cur);
+      it.classList.remove('is-near-1', 'is-near-2');
       if (idx === cur) {
         it.classList.add('active');
+        it.setAttribute('aria-current', 'page');
         try { it.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); } catch (e) {}
       } else {
         it.classList.remove('active');
+        it.removeAttribute('aria-current');
+        if (distance === 1) it.classList.add('is-near-1');
+        if (distance === 2) it.classList.add('is-near-2');
       }
     });
   }

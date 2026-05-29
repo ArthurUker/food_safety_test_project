@@ -23,6 +23,7 @@
 
   /* ── DOM 引用 ── */
   const scaler = document.getElementById('scaler');
+  const slideContainer = document.getElementById('slide-container');
   let slides = [];
   let totalSlides = 0;
 
@@ -40,10 +41,15 @@
 
     const htmlList = await Promise.all(slidePromises);
     const html = htmlList.join('\n');
-    scaler.insertAdjacentHTML('beforeend', html);
+    if (!slideContainer) throw new Error('Slide container not found');
+    slideContainer.innerHTML = html;
 
-    slides = Array.from(scaler.querySelectorAll(':scope > .slide'));
+    slides = Array.from(slideContainer.querySelectorAll(':scope > .slide'));
     totalSlides = slides.length;
+    // update total pages display
+    const totalPagesEl = document.getElementById('total-pages');
+    if (totalPagesEl) totalPagesEl.textContent = String(totalSlides);
+
     if (totalSlides > 0) {
       slides.forEach((s) => s.classList.remove('active'));
       slides[0].classList.add('active');
@@ -63,9 +69,11 @@
         <p style="font-size:14px;color:#6b8398">${String(err && err.message ? err.message : err)}</p>
       </div>
     `;
-    scaler.appendChild(fallback);
+    if (slideContainer) slideContainer.appendChild(fallback);
     slides = [fallback];
     totalSlides = 1;
+    const totalPagesEl = document.getElementById('total-pages');
+    if (totalPagesEl) totalPagesEl.textContent = '1';
   }
 
   /* ==================================================
@@ -73,15 +81,11 @@
      ================================================== */
   function resize() {
     const shell = document.querySelector('.ppt-shell');
-    const navBar = document.querySelector('.nav');
     const safeMargin = 24;
-    const navHeight = navBar ? navBar.offsetHeight : 96;
     const availW = Math.max(window.innerWidth - safeMargin * 2, 320);
-    const availH = Math.max(window.innerHeight - navHeight - safeMargin * 2, 240);
+    const availH = Math.max(window.innerHeight - safeMargin * 2, 240);
     const scale = Math.min(availW / DESIGN_W, availH / DESIGN_H);
-    if (shell) {
-      shell.style.height = `${DESIGN_H * scale}px`;
-    }
+    // .scaler 是固定的设计尺寸，使用 transform 缩放整个舞台
     scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
   }
 
@@ -109,32 +113,84 @@
   function updateNavDisplay() {
     const pageNum = cur + 1;
     const chapterName = chapterNames[cur] || '未知章节';
-    const pageDisplay = document.getElementById('page-display');
+    const currentPageEl = document.getElementById('current-page');
+    const totalPagesEl = document.getElementById('total-pages');
     const chapterDisplay = document.getElementById('chapter-display');
-    
-    if (pageDisplay) {
-      pageDisplay.textContent = `${pageNum} / ${totalSlides}`;
-    }
-    if (chapterDisplay) {
-      chapterDisplay.textContent = chapterName;
+    const miniProgress = document.getElementById('mini-progress');
+
+    if (currentPageEl) currentPageEl.textContent = String(pageNum);
+    if (totalPagesEl) totalPagesEl.textContent = String(totalSlides);
+    if (chapterDisplay) chapterDisplay.textContent = chapterName;
+    if (miniProgress) {
+      const pct = Math.round((pageNum / Math.max(totalSlides, 1)) * 100);
+      miniProgress.style.width = `${pct}%`;
     }
 
-    // 更新导航按钮的活跃状态
+    // 渲染章节气泡并更新激活状态
+    if (typeof renderChapters === 'function') renderChapters();
     updateNavButtons();
   }
 
-  // 更新导航按钮的活跃状态
+  // 简单的 HTML 转义，防止章节名中有特殊字符
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  // 渲染章节气泡（可被多次调用以更新激活状态）
+  function renderChapters() {
+    const container = document.getElementById('chapters-container');
+    if (!container) return;
+    // 如果尚未渲染，填充所有章节气泡
+    if (!container.dataset.rendered) {
+      container.innerHTML = '';
+      for (let i = 0; i < totalSlides; i++) {
+        const name = chapterNames[i] || `第${i + 1}页`;
+        const short = name.length > 2 ? name.slice(0, 2) : name;
+        const el = document.createElement('button');
+        el.className = 'chapter-bubble';
+        el.type = 'button';
+        el.dataset.index = i;
+        el.title = name;
+        el.innerHTML = `${escapeHtml(short)}`;
+        el.addEventListener('click', () => show(i));
+        el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { show(i); e.preventDefault(); } });
+        container.appendChild(el);
+      }
+      container.dataset.rendered = '1';
+    }
+    // 更新激活态
+    const items = container.querySelectorAll('.chapter-bubble');
+    items.forEach(it => {
+      const idx = parseInt(it.dataset.index, 10);
+      if (idx === cur) {
+        it.classList.add('active');
+        try { it.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); } catch (e) {}
+      } else {
+        it.classList.remove('active');
+      }
+    });
+  }
+
+  // 更新翻页按钮可用态与章节高亮（兼容旧与新）
   function updateNavButtons() {
-    const navButtons = document.querySelectorAll('.nav button[onclick^="goTo"]');
-    navButtons.forEach(btn => {
+    // 更新 prev/next 按钮禁用状态
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    if (btnPrev) btnPrev.disabled = (cur <= 0);
+    if (btnNext) btnNext.disabled = (cur >= totalSlides - 1);
+
+    // 更新 legacy 按钮（如果存在）
+    const legacy = document.querySelectorAll('.nav button[onclick^="goTo"]');
+    legacy.forEach(btn => {
       btn.classList.remove('nav-btn-active');
-      // 解析 onclick 属性中的页码
-      const match = btn.getAttribute('onclick').match(/goTo\((\d+)\)/);
+      const onclick = btn.getAttribute('onclick') || '';
+      const match = onclick.match(/goTo\((\d+)\)/);
       if (match) {
         const btnPageIdx = parseInt(match[1], 10);
-        if (btnPageIdx === cur) {
-          btn.classList.add('nav-btn-active');
-        }
+        if (btnPageIdx === cur) btn.classList.add('nav-btn-active');
       }
     });
   }
@@ -144,6 +200,14 @@
   window.prev = function () { show(cur - 1); };
   // 按页跳转（0-based）
   window.goTo = function (n) { show(n); };
+
+  // 绑定底部 prev/next 按钮
+  document.addEventListener('click', function (e) {
+    const t = e.target.closest && e.target.closest('#btn-prev');
+    if (t) { window.prev(); return; }
+    const t2 = e.target.closest && e.target.closest('#btn-next');
+    if (t2) { window.next(); return; }
+  });
 
   /* ==================================================
      3. 键盘快捷键
